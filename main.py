@@ -14,7 +14,7 @@ def main():
     createdir()
     userinput = input("1) Vlastní video\n"
                       "2) Default=BadApple\n"
-                      "3) Přehrátí framů\n")
+                      "3) Přehrátí framů(Pouze pokud už jste je předtím stáhnuli)\n")
     if userinput == "1":
         download()
         resize()
@@ -32,6 +32,8 @@ def main():
     delete = input("\nPokud chcete smazat framy napiště '1'")
     if delete == "1":
         shutil.rmtree("temp", ignore_errors=True)
+    else:
+        return 0
 
 
 def download():
