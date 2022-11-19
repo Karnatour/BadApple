@@ -28,7 +28,12 @@ def main():
         convert_to_ascii()
         play_ascii()
     else:
-        play_ascii()
+        try:
+            play_ascii()
+        except:
+            print("Framy neexistuji")
+            return 0
+
     delete = input("\nPokud chcete smazat framy napiště '1'")
     if delete == "1":
         shutil.rmtree("temp", ignore_errors=True)
