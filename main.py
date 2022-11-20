@@ -4,6 +4,8 @@ import os
 import winsound
 import fpstimer
 import shutil
+import time
+import threading
 
 # TODO Multi threading
 
@@ -17,12 +19,14 @@ def main():
                       "3) Přehrátí framů(Pouze pokud už jste je předtím stáhnuli)\n")
     if userinput == "1":
         download()
+        os.system("cls")
         resize()
         grayscale()
         convert_to_ascii()
         play_ascii()
     elif userinput == "2":
         default()
+        os.system("cls")
         resize()
         grayscale()
         convert_to_ascii()
@@ -34,8 +38,10 @@ def main():
             print("Framy neexistuji")
             return 0
 
+    os.system("cls")
     delete = input("\nPokud chcete smazat framy napiště '1'")
     if delete == "1":
+        print("Mažu složku temp...")
         shutil.rmtree("temp", ignore_errors=True)
     else:
         return 0
@@ -98,7 +104,10 @@ def convert_to_ascii():
     print("Převádím bmp soubory na ASCII (Tohle může nějakou dobu trvat)")
     maxcount = len(os.listdir('temp/grayscale')) + 1
     count = 1
+    run_once = 0
+    diff = 0
     while count != maxcount:
+        start = time.time()
         old_img = Image.open("temp/grayscale/frame{:05d}.bmp".format(count))
         pixels = old_img.getdata()
         ascii_str = ""
@@ -110,7 +119,12 @@ def convert_to_ascii():
             ascii_image = "\n".join(ascii_str[i:(i + new_width)] for i in range(0, ascii_str_len, new_width))
         with open("temp/ascii/frame{:05d}.txt".format(count), "w", encoding="utf-8") as f:
             f.write(ascii_image)
-        print("Progress: {} / {}\n".format(count, maxcount - 1), end="\r")
+        end = time.time()
+        if run_once == 0:
+            diff = end-start
+            run_once += 1
+        ETA = diff * (maxcount - count)
+        print(f"Progress: {count}/{maxcount}  ETA: {round(ETA, ndigits=1)} s", end="\r")
         count += 1
 
 
