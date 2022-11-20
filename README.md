@@ -13,3 +13,12 @@ Spusťte Git bash a napište
 git clone https://github.com/Karnatour/BadApple.git
 ```
   
+
+# Potřebné moduly
+
+```
+pip install Pillow
+```
+```
+pip install fpstimer
+```
