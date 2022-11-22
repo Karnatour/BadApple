@@ -1,3 +1,6 @@
 /venv
 /.idea
 /temp
+ffmpeg.exe
+ffprobe.exe
+yt-dlp.exe

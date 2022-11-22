@@ -20,16 +20,16 @@ def main():
     if userinput == "1":
         download()
         os.system("cls")
-        resize()
+        new_width = resize()
         grayscale()
-        convert_to_ascii()
+        convert_to_ascii(new_width)
         play_ascii()
     elif userinput == "2":
         default()
         os.system("cls")
-        resize()
+        new_width = resize()
         grayscale()
-        convert_to_ascii()
+        convert_to_ascii(new_width)
         play_ascii()
     else:
         try:
@@ -77,7 +77,6 @@ def resize():
     print("Měním rozlišení")
     maxcount = len(os.listdir('temp/frames')) + 1
     count = 1
-    global new_width
     new_width = 236
     while count != maxcount:
         img = Image.open("temp/frames/frame{:05d}.bmp".format(count))
@@ -87,6 +86,7 @@ def resize():
         new_img = img.resize((new_width, new_height))
         new_img.save("temp/resizedframes/frame{:05d}.bmp".format(count))
         count += 1
+    return new_width
 
 
 def grayscale():
@@ -100,7 +100,7 @@ def grayscale():
         count += 1
 
 
-def convert_to_ascii():
+def convert_to_ascii(new_width):
     print("Převádím bmp soubory na ASCII (Tohle může nějakou dobu trvat)")
     maxcount = len(os.listdir('temp/grayscale')) + 1
     count = 1
@@ -115,13 +115,14 @@ def convert_to_ascii():
         for pixel in pixels:
             ascii_str += ASCII_CHARS[pixel // 35]
         ascii_str_len = len(ascii_str)
-        for i in range(0, ascii_str_len):
-            ascii_image = "\n".join(ascii_str[i:(i + new_width)] for i in range(0, ascii_str_len, new_width))
+        for i in range(0, ascii_str_len,new_width):
+            #ascii_image = "\n".join(ascii_str[i:(i + new_width)] for i in range(0, ascii_str_len, new_width))
+            ascii_image += ascii_str[i:i + new_width] + "\n"
         with open("temp/ascii/frame{:05d}.txt".format(count), "w", encoding="utf-8") as f:
             f.write(ascii_image)
         end = time.time()
         if run_once == 0:
-            diff = end-start
+            diff = end - start
             run_once += 1
         ETA = diff * (maxcount - count)
         print(f"Progress: {count}/{maxcount}  ETA: {round(ETA, ndigits=1)} s", end="\r")
