@@ -3,4 +3,5 @@
 /temp
 ffmpeg.exe
 ffprobe.exe
+ffplay.exe
 yt-dlp.exe
