@@ -16,11 +16,3 @@ git clone https://github.com/Karnatour/BadApple.git
   
  Extrahujte ffmpeg a yt-dlp do adresáře kde jste zadali tento příkaz
 
-# Potřebné moduly
-
-```
-pip install Pillow
-```
-```
-pip install fpstimer
-```
